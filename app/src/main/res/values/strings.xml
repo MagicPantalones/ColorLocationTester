@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ColorLocationTester</string>
+    <string name="color_map_towers">locationTowers</string>
+    <string name="color_map_inhibs">locationInhibs</string>
 </resources>

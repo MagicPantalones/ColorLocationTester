@@ -6,10 +6,18 @@
     tools:context="com.example.android.colorlocationtester.MainActivity">
 
     <ImageView
-        
-        android:layout_height="wrap_content"
+        android:id="@+id/towerMapping"
         android:layout_width="wrap_content"
-        android:id="@+id/towerMapping" />
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/color_map_towers"
+        android:src="@drawable/newcolormap" />
+
+    <ImageView
+        android:id="@+id/inhibMapping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/color_map_inhibs"
+        android:src="@drawable/nexandinhibmap" />
 
 
 </RelativeLayout>
