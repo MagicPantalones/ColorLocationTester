@@ -1,10 +1,13 @@
+package com.example.android.colorlocationtester;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
+import android.util.Log;
+import android.view.View;
 
 /**
  * Copied from user Andrew87 at https://stackoverflow.com/questions/25275524/android-finding-x-and-y-positions-with-bitmap
@@ -15,25 +18,26 @@ public class colorCoordinates extends android.support.v7.widget.AppCompatImageVi
 
     Canvas mainCanvas;
     Drawable dColorMap;
+    int colorCooX;
+    int colorCooY;
 
     public colorCoordinates(Context context) {
         super(context);
     }
 
-
-    protected void onDraw(int colorMapId, Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        BitmapFactory.Options mNoscale = new BitmapFactory.Options();
-        mNoscale.inScaled = false;
-        ImageView img = (ImageView) findViewById(colorMapId);
-        img.setDrawingCacheEnabled(true);
-        Bitmap dColorMap = BitmapFactory.decodeResource(getResources(), colorMapId);
+        BitmapFactory.Options mNoScale = new BitmapFactory.Options();
+        mNoScale.inScaled = false;
+
+        Bitmap dColorMap = BitmapFactory.decodeResource(getResources(), R.drawable.newcolormap, mNoScale);
 
         analyzeColors(dColorMap);
 
     }
 
-    public int[] analyzeColors(Bitmap myBitmap) {
+    public void analyzeColors(Bitmap myBitmap) {
         int[] mapColorArray;
         int x = 0;
         int y = 0;
@@ -42,14 +46,23 @@ public class colorCoordinates extends android.support.v7.widget.AppCompatImageVi
 
         for (int i = 0; i < mapColorArray.length; i++) {
             int colorHash = mapColorArray[i];
-
+            String testing = String.format("#%06X", (0xFFFFFF & colorHash));
             int blue = Color.blue(colorHash);
             int red = Color.red(colorHash);
             int green = Color.green(colorHash);
-            y = i / myBitmap.getWidth();
-            x = i % myBitmap.getWidth();
+
+            if (red <= 197 && green >= 200 && blue >= 62) {
+                y = i / myBitmap.getWidth();
+                x = i % myBitmap.getWidth();
+                Log.v("FARGETEST", "x: " + Integer.toString(x) + " y: " + Integer.toString(y) + " AND Red: " + Integer.toString(red) + " Green: " + Integer.toString(green) + " Blue: " + Integer.toString(blue));
+            }
         }
-        return mapColorArray;
+        colorCooX = x;
+        colorCooY = y;
+    }
+
+    public int getViewResource(View v) {
+        return Integer.parseInt(this.getTag().toString());
     }
 
 }
